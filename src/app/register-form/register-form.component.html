@@ -1,0 +1,230 @@
+<div class="d-flex justify-content-center align-items-center mx-5 my-4">
+  <div class="card">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form">
+          <h2>Registration Form</h2>
+          <form #myForm="ngForm" (ngSubmit)="myForm.valid && register()">
+            <div class="form-group my-2">
+              <label for="firstname">First Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="firstname"
+                placeholder="Enter First name"
+                [(ngModel)]="userData.firstName"
+                #firstname="ngModel"
+                pattern="[A-Z][a-z]*"
+                required
+              />
+              <div *ngIf="myForm.submitted">
+                <div *ngIf="firstname.invalid">
+                  <div
+                    *ngIf="firstname.errors?.['required']"
+                    class="alert alert-danger"
+                  >
+                    Enter a First name
+                  </div>
+                  <div
+                    *ngIf="firstname.errors?.['pattern']"
+                    class="alert alert-danger"
+                  >
+                    Enter a Capitalize First letter
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group my-2">
+              <label for="lastname">Last name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="lastname"
+                placeholder="Enter Last name"
+                [(ngModel)]="userData.lastName"
+                #lastname="ngModel"
+                pattern="[A-Z][a-z]*"
+                required
+              />
+              <div *ngIf="myForm.submitted">
+                <div *ngIf="lastname.invalid">
+                  <div
+                    *ngIf="lastname.errors?.['required']"
+                    class="alert alert-danger"
+                  >
+                    Enter a lastname
+                  </div>
+                  <div
+                    *ngIf="lastname.errors?.['pattern']"
+                    class="alert alert-danger"
+                  >
+                    Enter a Capitalized First letter
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group my-2">
+              <label for="mobileNumber">Mobile number</label>
+              <input
+                type="text"
+                class="form-control"
+                name="mobileNumber"
+                placeholder="mobile Number"
+                [(ngModel)]="userData.phoneNumber"
+                #mobilenumber="ngModel"
+                required
+                minlength="10"
+                maxlength="10"
+              />
+              <div
+                *ngIf="
+                  mobilenumber.invalid &&
+                  (mobilenumber.dirty || mobilenumber.touched)
+                "
+                class="alert"
+              >
+                <div *ngIf="mobilenumber.errors?.['minlength']"></div>
+                <div class="alert alert-danger">
+                  Mobile number must contain 10 digits
+                </div>
+              </div>
+              <div
+                *ngIf="myForm.submitted && mobilenumber.invalid"
+                class="alert"
+              >
+                <div *ngIf="mobilenumber.errors?.['required']"></div>
+                <div class="alert alert-danger">Mobile number is required</div>
+              </div>
+            </div>
+            <div class="form-group my-2">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                placeholder="Enter a  password"
+                [(ngModel)]="userData.password"
+                #password="ngModel"
+                minlength="8"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%?&])[A-Za-z\d$@$!%?&]{8,}$"
+                required
+                (blur)="onPasswordBlur()"
+                (focus)="onPasswordFocus()"
+              />
+              <div *ngIf="myForm.submitted">
+                <div
+                  *ngIf="
+                   password.dirty || password.touched || password.invalid
+                  "
+                  class="alert"
+                >
+                  <div
+                    class="alert alert-danger"
+                    *ngIf="password.errors?.['required']"
+                  >
+                    {{ userData.author }}
+                    Password is required.
+                  </div>
+                  <div
+                    class="alert alert-danger"
+                    *ngIf="password.errors?.['minlength']"
+                  >
+                    Password must be at least 8 characters long.
+                  </div>
+                  <div
+                    class="alert alert-danger"
+                    *ngIf="password.errors?.['pattern']"
+                  >
+                    Password must contain 1 uppercase character,numbers and
+                    special characters.
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="password.valid && !isPasswordFocussed">
+                <div class="alert alert-success">
+                  You are going correct...😍
+                </div>
+              </div>
+            </div>
+            <div class="form-group my-2">
+              <label for="email">Email</label>
+              <input
+                class="form-control"
+                type="text"
+                name="email"
+                placeholder="Email"
+                [(ngModel)]="userData.email"
+                #email="ngModel"
+                required
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+              />
+              <div
+                *ngIf="email.invalid && (email.dirty || email.touched)"
+                class="alert"
+              >
+                <div *ngIf="email.errors?.['pattern']"></div>
+                <div class="alert alert-danger">invalid pattern</div>
+              </div>
+              <div *ngIf="myForm.submitted && email.invalid" class="alert">
+                <div *ngIf="email.errors?.['required']"></div>
+                <div class="alert alert-danger">Email is required</div>
+              </div>
+            </div>
+            <div class="form-group my-2">
+              <label for="organizationname">Organization Name</label>
+              <input
+                class="form-control"
+                name="organizationname"
+                placeholder="Organization name"
+                type="text"
+                name="address2"
+                [(ngModel)]="userData.organizationName"
+              />
+            </div>
+            <div class="form-group my-2">
+              <label for="address">Organization Address</label>
+              <input
+                class="form-control"
+                name="address"
+                placeholder="Organization Address"
+                type="text"
+                name="address2"
+                [(ngModel)]="userData.organizationAddress"
+              />
+            </div>
+            <div class="d-flex justify-content-between align-items-center my-4">
+              <div class="text-right">
+                <button
+                  type="submit"
+                  class="btn btn-success register btn-block"
+                >
+                  Register
+                </button>
+              </div>
+            </div>
+            <div class="form-check mt-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckChecked"
+                checked
+              />
+              <label class="form-check-label" for="flexCheckChecked">
+                I agree to the terms and conditions of
+                <a href="" class="login">Privacy & Policy</a>
+                <label>Created by {{userData.author}}</label>
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="text-center mt-5">
+          <img src="https://i.imgur.com/98GXnDD.png" width="400" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
